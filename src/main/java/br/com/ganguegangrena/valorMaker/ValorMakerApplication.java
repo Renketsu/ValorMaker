@@ -13,7 +13,7 @@ public class ValorMakerApplication {
 		SpringApplication.run(ValorMakerApplication.class, args);
 		Application app = new Application();
 		app.run();
-		
+		//teste!
 	}
 	
 
