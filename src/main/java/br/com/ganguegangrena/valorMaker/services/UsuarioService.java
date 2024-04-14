@@ -16,11 +16,15 @@ public class UsuarioService implements UsuarioServiceInterface {
 	private static final Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
     private final UsuarioDAO usuarioDAO;
+    
+    private final PublicacaoService publicacaoService;
 
     @Autowired
-    public UsuarioService(UsuarioDAO usuarioDAO) {
+    public UsuarioService(UsuarioDAO usuarioDAO, @Autowired(required = false) PublicacaoService publicacaoService) {
         this.usuarioDAO = usuarioDAO;
+        this.publicacaoService = publicacaoService;
     }
+
 
     @Override
     public void criarUsuario(Usuario usuario) {
