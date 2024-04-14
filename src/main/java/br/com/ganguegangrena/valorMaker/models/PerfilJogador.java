@@ -2,17 +2,58 @@ package br.com.ganguegangrena.valorMaker.models;
 
 import java.util.List;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+@Entity
 public class PerfilJogador {
 
+	// Nessa classe tem que ajustar o que realmente vai ser necessario
+	// po exemplo ( armaFavorita,precisaoTiros )
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int idUsuario;
+
+	@NotNull
+	@DecimalMin(value = "0.0")
+	@DecimalMax(value = "10.0")
 	private float kdRatio;
+
+	@NotBlank
 	private String classificacaoCompetitiva;
+
+	@NotNull
 	private boolean estiloJogoAggressivo;
+
+	@NotNull
 	private boolean estiloJogoTatico;
+
+	@Size(max = 100)
 	private String armaFavorita;
+
+	@NotNull
+	@DecimalMin(value = "0.0")
+	@DecimalMax(value = "100.0")
 	private float precisaoTiros;
+
+	@ElementCollection
 	private List<String> horariosDisponiveis;
+
+	@OneToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
 	public int getId() {
 		return id;
@@ -96,9 +137,9 @@ public class PerfilJogador {
 
 	private String estatisticasDetalhadas;
 
-	public PerfilJogador(int id, int idUsuario, float kdRatio, String classificacaoCompetitiva, boolean estiloJogoAggressivo,
-			boolean estiloJogoTatico, String armaFavorita, float precisaoTiros, List<String> horariosDisponiveis,
-			String estatisticasDetalhadas) {
+	public PerfilJogador(int id, int idUsuario, float kdRatio, String classificacaoCompetitiva,
+			boolean estiloJogoAggressivo, boolean estiloJogoTatico, String armaFavorita, float precisaoTiros,
+			List<String> horariosDisponiveis, String estatisticasDetalhadas) {
 		super();
 		this.id = id;
 		this.idUsuario = idUsuario;
@@ -111,7 +152,7 @@ public class PerfilJogador {
 		this.horariosDisponiveis = horariosDisponiveis;
 		this.estatisticasDetalhadas = estatisticasDetalhadas;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "PerfilJogador [id=" + id + ", idUsuario=" + idUsuario + ", kdRatio=" + kdRatio
