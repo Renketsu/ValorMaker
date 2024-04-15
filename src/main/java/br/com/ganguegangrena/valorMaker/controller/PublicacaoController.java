@@ -34,7 +34,7 @@ public class PublicacaoController {
         return new ResponseEntity<>(novaPublicacao, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/publicacoes/{id}")
     public ResponseEntity<Publicacao> recuperarPublicacaoPorId(@PathVariable Long id) {
         Publicacao publicacao = publicacaoService.recuperarPublicacaoPorId(id);
         if (publicacao != null) {
@@ -50,14 +50,14 @@ public class PublicacaoController {
         return new ResponseEntity<>(publicacoes, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/publicacoes/{id}")
     public ResponseEntity<Void> atualizarPublicacao(@PathVariable Long id, @RequestBody Publicacao publicacao) {
         publicacao.setId(id);
         publicacaoService.atualizarPublicacao(publicacao);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/publicacoes/{id}")
     public ResponseEntity<Void> excluirPublicacao(@PathVariable Long id) {
         publicacaoService.excluirPublicacao(id);
         return new ResponseEntity<>(HttpStatus.OK);

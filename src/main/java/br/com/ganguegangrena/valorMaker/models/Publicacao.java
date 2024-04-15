@@ -1,6 +1,7 @@
 package br.com.ganguegangrena.valorMaker.models;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,6 +39,10 @@ public class Publicacao {
 
     @Column(nullable = false)
     private LocalDateTime dataCriacao;
+    
+    public Publicacao() {
+    	
+    }
 
 	public Long getId() {
 		return id;
@@ -94,6 +99,26 @@ public class Publicacao {
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
+
+	public Publicacao(Long id, String texto, byte[] imagem, String videoUrl, String linkUrl, Usuario usuario,
+			LocalDateTime dataCriacao) {
+		super();
+		this.id = id;
+		this.texto = texto;
+		this.imagem = imagem;
+		this.videoUrl = videoUrl;
+		this.linkUrl = linkUrl;
+		this.usuario = usuario;
+		this.dataCriacao = dataCriacao;
+	}
+
+	@Override
+	public String toString() {
+		return "Publicacao [id=" + id + ", texto=" + texto + ", imagem=" + Arrays.toString(imagem) + ", videoUrl="
+				+ videoUrl + ", linkUrl=" + linkUrl + ", usuario=" + usuario + ", dataCriacao=" + dataCriacao + "]";
+	}
+
+	
     
     
 

@@ -13,7 +13,7 @@ import br.com.ganguegangrena.valorMaker.models.Publicacao;
 public class PublicacaoService {
 
     private final PublicacaoDAO publicacaoDAO;
-
+    
     @Autowired
     public PublicacaoService(PublicacaoDAO publicacaoDAO) {
         this.publicacaoDAO = publicacaoDAO;
@@ -43,4 +43,11 @@ public class PublicacaoService {
     public void excluirPublicacao(Long id) {
         publicacaoDAO.deleteById(id);
     }
+    
+    // Método para recuperar as publicações de um usuário
+    
+    public List<Publicacao> recuperarPublicacoesDoUsuario(Long idUsuario) {
+        return publicacaoDAO.findByUsuarioId(idUsuario);
+    }
+    
 }

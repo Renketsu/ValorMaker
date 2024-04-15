@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.ganguegangrena.valorMaker.dao.PerfilJogadorDAO;
 import br.com.ganguegangrena.valorMaker.models.PerfilJogador;
+import br.com.ganguegangrena.valorMaker.models.Publicacao;
 
 @Service
 public class PerfilJogadorService implements PerfilJogadorServiceInterface {
@@ -17,10 +18,13 @@ public class PerfilJogadorService implements PerfilJogadorServiceInterface {
 	 // adicionando log bruto, refinar no futuro para ficar mais legivel
 	
     private final PerfilJogadorDAO perfilJogadorDAO;
+    
+    private final PublicacaoService publicacaoService;
 
     @Autowired
-    public PerfilJogadorService(PerfilJogadorDAO perfilJogadorDAO) {
+    public PerfilJogadorService(PerfilJogadorDAO perfilJogadorDAO, @Autowired(required = false) PublicacaoService publicacaoService){
         this.perfilJogadorDAO = perfilJogadorDAO;
+        this.publicacaoService = publicacaoService;
     }
 
     @Override
@@ -61,4 +65,9 @@ public class PerfilJogadorService implements PerfilJogadorServiceInterface {
     	logger.info("Recuperando todos os perfis de jogador");
         return perfilJogadorDAO.findAll();
     }
+
+    public List<Publicacao> recuperarPublicacoesDoUsuario(Long idUsuario) {
+        return publicacaoService.recuperarPublicacoesDoUsuario(idUsuario);
+    }
+    
 }

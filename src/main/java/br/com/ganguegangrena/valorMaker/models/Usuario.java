@@ -1,12 +1,17 @@
 package br.com.ganguegangrena.valorMaker.models;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +46,17 @@ public class Usuario {
 
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private PerfilJogador perfilJogador;
+
+	@ManyToMany(mappedBy = "usuariosSeguidos")
+	private List<Usuario> seguidores;
+
+	// Relacionamento para representar os usuários seguidos pelo usuário
+	@ManyToMany
+	@JoinTable(name = "usuarios_seguidos", joinColumns = @JoinColumn(name = "seguidor_id"), inverseJoinColumns = @JoinColumn(name = "seguido_id"))
+	private List<Usuario> usuariosSeguidos;
+
+	@OneToMany(mappedBy = "usuario")
+	private List<Publicacao> publicacoes;
 
 	public int getId() {
 		return id;
@@ -98,12 +114,42 @@ public class Usuario {
 		this.localizacao = localizacao;
 	}
 
-	public Usuario() {
-
+	public PerfilJogador getPerfilJogador() {
+		return perfilJogador;
 	}
 
-	public Usuario(int id, String nomeDeUsuario, String senhaHash, String email, String fotoPerfilUrl,
-			Date dataRegistro, String localizacao) {
+	public void setPerfilJogador(PerfilJogador perfilJogador) {
+		this.perfilJogador = perfilJogador;
+	}
+
+	public List<Usuario> getSeguidores() {
+		return seguidores;
+	}
+
+	public void setSeguidores(List<Usuario> seguidores) {
+		this.seguidores = seguidores;
+	}
+
+	public List<Usuario> getUsuariosSeguidos() {
+		return usuariosSeguidos;
+	}
+
+	public void setUsuariosSeguidos(List<Usuario> usuariosSeguidos) {
+		this.usuariosSeguidos = usuariosSeguidos;
+	}
+
+	public List<Publicacao> getPublicacoes() {
+		return publicacoes;
+	}
+
+	public void setPublicacoes(List<Publicacao> publicacoes) {
+		this.publicacoes = publicacoes;
+	}
+
+	public Usuario(int id, @NotBlank @Size(max = 100) String nomeDeUsuario, @NotBlank @Size(min = 6) String senhaHash,
+			@NotBlank @Email String email, String fotoPerfilUrl, @NotNull Date dataRegistro,
+			@NotBlank String localizacao, PerfilJogador perfilJogador, List<Usuario> seguidores,
+			List<Usuario> usuariosSeguidos, List<Publicacao> publicacoes) {
 		super();
 		this.id = id;
 		this.nomeDeUsuario = nomeDeUsuario;
@@ -112,17 +158,18 @@ public class Usuario {
 		this.fotoPerfilUrl = fotoPerfilUrl;
 		this.dataRegistro = dataRegistro;
 		this.localizacao = localizacao;
+		this.perfilJogador = perfilJogador;
+		this.seguidores = seguidores;
+		this.usuariosSeguidos = usuariosSeguidos;
+		this.publicacoes = publicacoes;
 	}
 
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nomeDeUsuario=" + nomeDeUsuario + ", senhaHash=" + senhaHash + ", email="
 				+ email + ", fotoPerfilUrl=" + fotoPerfilUrl + ", dataRegistro=" + dataRegistro + ", localizacao="
-				+ localizacao + ", getId()=" + getId() + ", getNomeDeUsuario()=" + getNomeDeUsuario()
-				+ ", getSenhaHash()=" + getSenhaHash() + ", getEmail()=" + getEmail() + ", getFotoPerfilUrl()="
-				+ getFotoPerfilUrl() + ", getDataRegistro()=" + getDataRegistro() + ", getLocalizacao()="
-				+ getLocalizacao() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ localizacao + ", perfilJogador=" + perfilJogador + ", seguidores=" + seguidores
+				+ ", usuariosSeguidos=" + usuariosSeguidos + ", publicacoes=" + publicacoes + "]";
 	}
 
 }
