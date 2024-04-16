@@ -3,6 +3,8 @@ package br.com.ganguegangrena.valorMaker.models;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,10 +37,12 @@ public class Publicacao {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonIgnore
     private Usuario usuario;
 
     @Column(nullable = false)
     private LocalDateTime dataCriacao;
+    
     
     public Publicacao() {
     	

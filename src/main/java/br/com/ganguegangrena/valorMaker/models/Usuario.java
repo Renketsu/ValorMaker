@@ -3,6 +3,8 @@ package br.com.ganguegangrena.valorMaker.models;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,6 +47,7 @@ public class Usuario {
 	private String localizacao;
 
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private PerfilJogador perfilJogador;
 
 	@ManyToMany(mappedBy = "usuariosSeguidos")
@@ -144,6 +147,10 @@ public class Usuario {
 
 	public void setPublicacoes(List<Publicacao> publicacoes) {
 		this.publicacoes = publicacoes;
+	}
+	
+	public Usuario() {
+		
 	}
 
 	public Usuario(int id, @NotBlank @Size(max = 100) String nomeDeUsuario, @NotBlank @Size(min = 6) String senhaHash,
