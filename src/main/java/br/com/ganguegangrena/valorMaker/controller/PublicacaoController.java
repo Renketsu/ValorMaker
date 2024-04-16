@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ganguegangrena.valorMaker.models.Publicacao;
 import br.com.ganguegangrena.valorMaker.services.PublicacaoService;
+import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/publicacoes")
+@RequestMapping("/publicacoes")
 public class PublicacaoController {
 
     private final PublicacaoService publicacaoService;
@@ -28,13 +30,14 @@ public class PublicacaoController {
         this.publicacaoService = publicacaoService;
     }
 
-    @PostMapping
-    public ResponseEntity<Publicacao> criarPublicacao(@RequestBody Publicacao publicacao) {
+    @PostMapping("{id}/publicacoes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Publicacao> criarPublicacaoPorId(@PathVariable Long id ,@Valid @RequestBody Publicacao publicacao) {
         Publicacao novaPublicacao = publicacaoService.criarPublicacao(publicacao);
         return new ResponseEntity<>(novaPublicacao, HttpStatus.CREATED);
     }
 
-    @GetMapping("/api/publicacoes/{id}")
+    @GetMapping("/publicacoes/{id}")
     public ResponseEntity<Publicacao> recuperarPublicacaoPorId(@PathVariable Long id) {
         Publicacao publicacao = publicacaoService.recuperarPublicacaoPorId(id);
         if (publicacao != null) {
@@ -50,14 +53,14 @@ public class PublicacaoController {
         return new ResponseEntity<>(publicacoes, HttpStatus.OK);
     }
 
-    @PutMapping("/api/publicacoes/{id}")
+    @PutMapping("/publicacoes/{id}")
     public ResponseEntity<Void> atualizarPublicacao(@PathVariable Long id, @RequestBody Publicacao publicacao) {
         publicacao.setId(id);
         publicacaoService.atualizarPublicacao(publicacao);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/publicacoes/{id}")
+    @DeleteMapping("/publicacoes/{id}")
     public ResponseEntity<Void> excluirPublicacao(@PathVariable Long id) {
         publicacaoService.excluirPublicacao(id);
         return new ResponseEntity<>(HttpStatus.OK);

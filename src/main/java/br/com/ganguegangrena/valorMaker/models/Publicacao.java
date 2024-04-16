@@ -18,7 +18,9 @@ public class Publicacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Id id;
+    
 
     @Column(columnDefinition = "TEXT")
     private String texto;
@@ -40,16 +42,13 @@ public class Publicacao {
     @Column(nullable = false)
     private LocalDateTime dataCriacao;
     
-    public Publicacao() {
-    	
-    }
-
-	public Long getId() {
+    
+	public Id getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(Long id2) {
+		this.id = id2;
 	}
 
 	public String getTexto() {
@@ -100,10 +99,14 @@ public class Publicacao {
 		this.dataCriacao = dataCriacao;
 	}
 
+	public Publicacao() {
+		
+	}
+	
 	public Publicacao(Long id, String texto, byte[] imagem, String videoUrl, String linkUrl, Usuario usuario,
 			LocalDateTime dataCriacao) {
 		super();
-		this.id = id;
+		
 		this.texto = texto;
 		this.imagem = imagem;
 		this.videoUrl = videoUrl;

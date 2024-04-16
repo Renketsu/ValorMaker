@@ -58,6 +58,8 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario")
 	private List<Publicacao> publicacoes;
 
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -145,7 +147,11 @@ public class Usuario {
 	public void setPublicacoes(List<Publicacao> publicacoes) {
 		this.publicacoes = publicacoes;
 	}
-
+	
+	public Usuario () {
+		
+	}
+	
 	public Usuario(int id, @NotBlank @Size(max = 100) String nomeDeUsuario, @NotBlank @Size(min = 6) String senhaHash,
 			@NotBlank @Email String email, String fotoPerfilUrl, @NotNull Date dataRegistro,
 			@NotBlank String localizacao, PerfilJogador perfilJogador, List<Usuario> seguidores,
