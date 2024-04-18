@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ganguegangrena.valorMaker.dto.ComentarioDTO;
 import br.com.ganguegangrena.valorMaker.dto.PublicacaoDTO;
+import br.com.ganguegangrena.valorMaker.models.Comentario;
 import br.com.ganguegangrena.valorMaker.models.Publicacao;
 import br.com.ganguegangrena.valorMaker.models.Usuario;
 import br.com.ganguegangrena.valorMaker.services.PublicacaoService;
@@ -81,4 +83,32 @@ public class PublicacaoController {
         publicacaoService.excluirPublicacao(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+
+    
+    @PostMapping("/{publicacaoId}/comentarios")
+    public ResponseEntity<Comentario> adicionarComentario(@PathVariable Long publicacaoId, @RequestBody ComentarioDTO comentarioDTO) {
+        Usuario usuario = usuarioService.recuperarUsuarioPorId(comentarioDTO.getUsuarioId().intValue());
+
+        if (usuario == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Comentario comentario = new Comentario();
+        comentario.setTexto(comentarioDTO.getTexto());
+        comentario.setUsuario(usuario);
+
+        Publicacao publicacao = publicacaoService.recuperarPublicacaoPorId(publicacaoId);
+        if (publicacao == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        publicacao.adicionarComentario(comentario);
+
+        publicacaoService.atualizarPublicacao(publicacao);
+
+        return ResponseEntity.ok(comentario);
+    }
+    
+    
 }

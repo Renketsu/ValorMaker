@@ -54,7 +54,6 @@ public @Data class Usuario {
 	@ManyToMany(mappedBy = "usuariosSeguidos")
 	private List<Usuario> seguidores;
 
-	// Relacionamento para representar os usuários seguidos pelo usuário
 	@ManyToMany
 	@JoinTable(name = "usuarios_seguidos", joinColumns = @JoinColumn(name = "seguidor_id"), inverseJoinColumns = @JoinColumn(name = "seguido_id"))
 	private List<Usuario> usuariosSeguidos;
