@@ -5,7 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ganguegangrena.valorMaker.dao.UsuarioDAO;
 import br.com.ganguegangrena.valorMaker.models.Publicacao;
@@ -26,45 +28,72 @@ public class UsuarioService implements UsuarioServiceInterface {
 		this.publicacaoService = publicacaoService;
 	}
 
-	@Override
+	@Transactional
 	public void criarUsuario(Usuario usuario) {
-		logger.info("Criando usuário: {}", usuario);
-		usuarioDAO.save(usuario);
-		logger.info("Usuário criado com sucesso.");
+		try {
+			logger.info("Criando usuário: {}", usuario);
+			usuarioDAO.save(usuario);
+			logger.info("Usuário criado com sucesso.");
+		} catch (DataAccessException e) {
+			logger.error("Erro ao criar usuário", e);
+			throw new RuntimeException("Erro ao criar usuário", e);
+		}
 	}
 
-	@Override
+	@Transactional
 	public void atualizarUsuario(Usuario usuario) {
-		logger.info("Atualizando usuário com ID {}: {}", usuario.getId(), usuario);
-		usuarioDAO.save(usuario);
-		logger.info("Usuário atualizado com sucesso.");
+		try {
+			logger.info("Atualizando usuário com ID {}: {}", usuario.getId(), usuario);
+			usuarioDAO.save(usuario);
+			logger.info("Usuário atualizado com sucesso.");
+		} catch (DataAccessException e) {
+			logger.error("Erro ao atualizar usuário", e);
+			throw new RuntimeException("Erro ao atualizar usuário", e);
+		}
 	}
 
-	@Override
+	@Transactional
 	public void excluirUsuario(int id) {
-		logger.info("Excluindo usuário com ID {}", id);
-		usuarioDAO.deleteById(id);
-		logger.info("Usuário excluído com sucesso.");
+		try {
+			logger.info("Excluindo usuário com ID {}", id);
+			usuarioDAO.deleteById(id);
+			logger.info("Usuário excluído com sucesso.");
+		} catch (DataAccessException e) {
+			logger.error("Erro ao excluir usuário", e);
+			throw new RuntimeException("Erro ao excluir usuário", e);
+		}
 	}
 
-	@Override
+	@Transactional(readOnly = true)
 	public Usuario recuperarUsuarioPorId(int id) {
-		logger.info("Recuperando usuário com ID {}", id);
-		return usuarioDAO.findById(id).orElse(null);
+		try {
+			logger.info("Recuperando usuário com ID {}", id);
+			return usuarioDAO.findById(id).orElse(null);
+		} catch (DataAccessException e) {
+			logger.error("Erro ao recuperar usuário por ID", e);
+			throw new RuntimeException("Erro ao recuperar usuário por ID", e);
+		}
 	}
 
-	@Override
+	@Transactional(readOnly = true)
 	public List<Usuario> recuperarTodosUsuarios() {
-		logger.info("Recuperando todos os usuários");
-		return usuarioDAO.findAll();
+		try {
+			logger.info("Recuperando todos os usuários");
+			return usuarioDAO.findAll();
+		} catch (DataAccessException e) {
+			logger.error("Erro ao recuperar todos os usuários", e);
+			throw new RuntimeException("Erro ao recuperar todos os usuários", e);
+		}
 	}
 
-	// Metodos para publicacao
+	// Métodos para publicação
 
 	public void seguirUsuario(Long idSeguidor, Long idSeguido) {
+		// Implementação para seguir um usuário
 	}
 
 	public void deixarDeSeguirUsuario(Long idSeguidor, Long idSeguido) {
+		// Implementação para deixar de seguir um usuário
 	}
 
 	public List<Usuario> recuperarSeguidores(Long idUsuario) {
