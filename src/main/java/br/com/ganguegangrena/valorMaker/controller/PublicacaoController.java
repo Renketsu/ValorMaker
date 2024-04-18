@@ -22,65 +22,63 @@ import br.com.ganguegangrena.valorMaker.services.PublicacaoService;
 import br.com.ganguegangrena.valorMaker.services.UsuarioService;
 
 @RestController
-@RequestMapping("/publicacoes")
+@RequestMapping("/api/publicacoes")
 public class PublicacaoController {
 
-	private final PublicacaoService publicacaoService;
-	private final UsuarioService usuarioService;
+    private final PublicacaoService publicacaoService;
+    private final UsuarioService usuarioService;
 
-	@Autowired
-	public PublicacaoController(PublicacaoService publicacaoService, UsuarioService usuarioService) {
-		this.publicacaoService = publicacaoService;
-		this.usuarioService = usuarioService;
-	}
+    @Autowired
+    public PublicacaoController(PublicacaoService publicacaoService, UsuarioService usuarioService) {
+        this.publicacaoService = publicacaoService;
+        this.usuarioService = usuarioService;
+    }
 
-	@PostMapping("/api/publicacoes")
-	public ResponseEntity<Publicacao> criarPublicacao(@RequestBody PublicacaoDTO publicacaoDTO) {
-		Usuario usuario = usuarioService.recuperarUsuarioPorId(publicacaoDTO.getIdUsuario());
-		if (usuario == null) {
-			return ResponseEntity.badRequest().body(null);
-		}
+    @PostMapping
+    public ResponseEntity<Publicacao> criarPublicacao(@RequestBody PublicacaoDTO publicacaoDTO) {
+        Usuario usuario = usuarioService.recuperarUsuarioPorId(publicacaoDTO.getIdUsuario());
+        if (usuario == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
 
-		Publicacao publicacao = new Publicacao();
-		publicacao.setTexto(publicacaoDTO.getTexto());
-		publicacao.setImagem(publicacaoDTO.getImagem());
-		publicacao.setVideoUrl(publicacaoDTO.getVideoUrl());
-		publicacao.setLinkUrl(publicacaoDTO.getLinkUrl());
-		publicacao.setUsuario(usuario);
-		publicacao.setDataCriacao(LocalDateTime.now());
+        Publicacao publicacao = new Publicacao();
+        publicacao.setTexto(publicacaoDTO.getTexto());
+        publicacao.setImagem(publicacaoDTO.getImagem());
+        publicacao.setVideoUrl(publicacaoDTO.getVideoUrl());
+        publicacao.setLinkUrl(publicacaoDTO.getLinkUrl());
+        publicacao.setUsuario(usuario);
+        publicacao.setDataCriacao(LocalDateTime.now());
 
-		Publicacao novaPublicacao = publicacaoService.criarPublicacao(publicacao);
-		return new ResponseEntity<>(novaPublicacao, HttpStatus.CREATED);
-	}
+        Publicacao novaPublicacao = publicacaoService.criarPublicacao(publicacao);
+        return new ResponseEntity<>(novaPublicacao, HttpStatus.CREATED);
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Publicacao> recuperarPublicacaoPorId(@PathVariable Long id) {
+        Publicacao publicacao = publicacaoService.recuperarPublicacaoPorId(id);
+        if (publicacao != null) {
+            return new ResponseEntity<>(publicacao, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
+    @GetMapping
+    public ResponseEntity<List<Publicacao>> recuperarTodasPublicacoes() {
+        List<Publicacao> publicacoes = publicacaoService.recuperarTodasPublicacoes();
+        return new ResponseEntity<>(publicacoes, HttpStatus.OK);
+    }
 
-	@GetMapping("/api/publicacoes/{id}")
-	public ResponseEntity<Publicacao> recuperarPublicacaoPorId(@PathVariable Long id) {
-		Publicacao publicacao = publicacaoService.recuperarPublicacaoPorId(id);
-		if (publicacao != null) {
-			return new ResponseEntity<>(publicacao, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizarPublicacao(@PathVariable Long id, @RequestBody Publicacao publicacao) {
+        publicacao.setId(id);
+        publicacaoService.atualizarPublicacao(publicacao);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-	@GetMapping
-	public ResponseEntity<List<Publicacao>> recuperarTodasPublicacoes() {
-		List<Publicacao> publicacoes = publicacaoService.recuperarTodasPublicacoes();
-		return new ResponseEntity<>(publicacoes, HttpStatus.OK);
-	}
-
-	@PutMapping("/api/publicacoes/{id}")
-	public ResponseEntity<Void> atualizarPublicacao(@PathVariable Long id, @RequestBody Publicacao publicacao) {
-		publicacao.setId(id);
-		publicacaoService.atualizarPublicacao(publicacao);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@DeleteMapping("/api/publicacoes/{id}")
-	public ResponseEntity<Void> excluirPublicacao(@PathVariable Long id) {
-		publicacaoService.excluirPublicacao(id);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirPublicacao(@PathVariable Long id) {
+        publicacaoService.excluirPublicacao(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
