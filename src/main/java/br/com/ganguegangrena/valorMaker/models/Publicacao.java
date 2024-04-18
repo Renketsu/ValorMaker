@@ -13,10 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import lombok.Data;
 
 
 @Entity
-public class Publicacao {
+public @Data class Publicacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,87 +44,6 @@ public class Publicacao {
     @Column(nullable = false)
     private LocalDateTime dataCriacao;
     
-    
-    public Publicacao() {
-    	
-    }
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTexto() {
-		return texto;
-	}
-
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
-
-	public byte[] getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
-	}
-
-	public String getVideoUrl() {
-		return videoUrl;
-	}
-
-	public void setVideoUrl(String videoUrl) {
-		this.videoUrl = videoUrl;
-	}
-
-	public String getLinkUrl() {
-		return linkUrl;
-	}
-
-	public void setLinkUrl(String linkUrl) {
-		this.linkUrl = linkUrl;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(LocalDateTime dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
-	public Publicacao(Long id, String texto, byte[] imagem, String videoUrl, String linkUrl, Usuario usuario,
-			LocalDateTime dataCriacao) {
-		super();
-		this.id = id;
-		this.texto = texto;
-		this.imagem = imagem;
-		this.videoUrl = videoUrl;
-		this.linkUrl = linkUrl;
-		this.usuario = usuario;
-		this.dataCriacao = dataCriacao;
-	}
-
-	@Override
-	public String toString() {
-		return "Publicacao [id=" + id + ", texto=" + texto + ", imagem=" + Arrays.toString(imagem) + ", videoUrl="
-				+ videoUrl + ", linkUrl=" + linkUrl + ", usuario=" + usuario + ", dataCriacao=" + dataCriacao + "]";
-	}
-
-	
-    
-    
 
 }
