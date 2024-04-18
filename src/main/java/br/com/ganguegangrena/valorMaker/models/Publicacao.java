@@ -19,7 +19,7 @@ public class Publicacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "usuario_id", nullable = false)
-    private Id id;
+    private Long id;
     
 
     @Column(columnDefinition = "TEXT")
@@ -43,12 +43,12 @@ public class Publicacao {
     private LocalDateTime dataCriacao;
     
     
-	public Id getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id2) {
-		this.id = id2;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTexto() {

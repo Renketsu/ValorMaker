@@ -30,14 +30,15 @@ public class PublicacaoController {
         this.publicacaoService = publicacaoService;
     }
 
-    @PostMapping("{id}/publicacoes")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Publicacao> criarPublicacaoPorId(@PathVariable Long id ,@Valid @RequestBody Publicacao publicacao) {
+    public ResponseEntity<Publicacao> criarPublicacao(@Valid @RequestBody Publicacao publicacao) {
         Publicacao novaPublicacao = publicacaoService.criarPublicacao(publicacao);
         return new ResponseEntity<>(novaPublicacao, HttpStatus.CREATED);
-    }
+    } 
+    
 
-    @GetMapping("/publicacoes/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Publicacao> recuperarPublicacaoPorId(@PathVariable Long id) {
         Publicacao publicacao = publicacaoService.recuperarPublicacaoPorId(id);
         if (publicacao != null) {

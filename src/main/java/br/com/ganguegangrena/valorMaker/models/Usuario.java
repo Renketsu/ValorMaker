@@ -22,7 +22,7 @@ import jakarta.validation.constraints.Size;
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	@NotBlank
 	@Size(max = 100)
@@ -60,11 +60,11 @@ public class Usuario {
 
 	
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -152,7 +152,7 @@ public class Usuario {
 		
 	}
 	
-	public Usuario(int id, @NotBlank @Size(max = 100) String nomeDeUsuario, @NotBlank @Size(min = 6) String senhaHash,
+	public Usuario(Long id, @NotBlank @Size(max = 100) String nomeDeUsuario, @NotBlank @Size(min = 6) String senhaHash,
 			@NotBlank @Email String email, String fotoPerfilUrl, @NotNull Date dataRegistro,
 			@NotBlank String localizacao, PerfilJogador perfilJogador, List<Usuario> seguidores,
 			List<Usuario> usuariosSeguidos, List<Publicacao> publicacoes) {

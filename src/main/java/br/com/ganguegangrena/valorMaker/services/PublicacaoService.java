@@ -14,7 +14,7 @@ import br.com.ganguegangrena.valorMaker.models.Publicacao;
 public class PublicacaoService {
 
     private final PublicacaoDAO publicacaoDAO;
-	private UsuarioDAO usuarioDAO;
+    private final UsuarioDAO usuarioDAO;
     
     
     @Autowired
@@ -31,8 +31,7 @@ public class PublicacaoService {
     public Publicacao criarPublicacaoPorId(Publicacao publicacao, Long id) {
     	publicacaoDAO.findByUsuarioId(id);
         publicacao.setDataCriacao(LocalDateTime.now());
-        publicacao.setId(id);	
-        publicacaoDAO.save(id);
+        publicacao.setId(id);	       
         return publicacaoDAO.save(publicacao);
     }
     public Publicacao recuperarPublicacaoPorId(Long id) {
