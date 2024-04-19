@@ -1,6 +1,7 @@
 package br.com.ganguegangrena.valorMaker.controller;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class PublicacaoController {
 
     private final PublicacaoService publicacaoService;
     private final UsuarioService usuarioService;
+    
 
     @Autowired
     public PublicacaoController(PublicacaoService publicacaoService, UsuarioService usuarioService) {
@@ -49,7 +51,8 @@ public class PublicacaoController {
         publicacao.setVideoUrl(publicacaoDTO.getVideoUrl());
         publicacao.setLinkUrl(publicacaoDTO.getLinkUrl());
         publicacao.setUsuario(usuario);
-        publicacao.setDataCriacao(LocalDateTime.now());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        publicacao.setDataCriacao(LocalDateTime.now().format(formatter));
 
         Publicacao novaPublicacao = publicacaoService.criarPublicacao(publicacao);
         return new ResponseEntity<>(novaPublicacao, HttpStatus.CREATED);
@@ -83,12 +86,10 @@ public class PublicacaoController {
         publicacaoService.excluirPublicacao(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
-
-    
+     
     @PostMapping("/{publicacaoId}/comentarios")
     public ResponseEntity<Comentario> adicionarComentario(@PathVariable Long publicacaoId, @RequestBody ComentarioDTO comentarioDTO) {
-        Usuario usuario = usuarioService.recuperarUsuarioPorId(comentarioDTO.getUsuarioId().intValue());
+        Usuario usuario = usuarioService.recuperarUsuarioPorId(comentarioDTO.getUsuarioId());
 
         if (usuario == null) {
             return ResponseEntity.badRequest().body(null);
@@ -97,7 +98,9 @@ public class PublicacaoController {
         Comentario comentario = new Comentario();
         comentario.setTexto(comentarioDTO.getTexto());
         comentario.setUsuario(usuario);
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        comentario.setDataCriacao(LocalDateTime.now().format(formatter));
+        
         Publicacao publicacao = publicacaoService.recuperarPublicacaoPorId(publicacaoId);
         if (publicacao == null) {
             return ResponseEntity.notFound().build();
@@ -108,7 +111,5 @@ public class PublicacaoController {
         publicacaoService.atualizarPublicacao(publicacao);
 
         return ResponseEntity.ok(comentario);
-    }
-    
-    
-}
+    }              
+   }        

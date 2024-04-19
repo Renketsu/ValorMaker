@@ -47,7 +47,7 @@ public @Data class Publicacao {
     
 
     @Column(nullable = false)
-    private LocalDateTime dataCriacao;
+    private String dataCriacao;
     
     @OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
     private List<Comentario> comentarios = new ArrayList<>();
