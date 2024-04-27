@@ -15,6 +15,6 @@ public interface PublicacaoDAO extends JpaRepository<Publicacao, Long> {
 
 	List<Publicacao> findByTextoContainingIgnoreCase(String texto);
 
-	List<Publicacao> findByDataCriacaoBetween(LocalDateTime inicio, LocalDateTime fim);
+	List<Publicacao> findByDataCriacaoBetween(String inicio, String fim);
 
 }

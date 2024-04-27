@@ -7,15 +7,15 @@ import lombok.Setter;
 @Setter
 public class ComentarioDTO {
 
-    private Long usuarioId;
+    private int usuarioId;
     private String texto;
 
 
-    public Long getUsuarioId() {
+    public int getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
+    public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
     }
 

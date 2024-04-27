@@ -73,6 +73,7 @@ public class UsuarioService implements UsuarioServiceInterface {
 			logger.error("Erro ao recuperar usuário por ID", e);
 			throw new RuntimeException("Erro ao recuperar usuário por ID", e);
 		}
+		
 	}
 
 	@Transactional(readOnly = true)

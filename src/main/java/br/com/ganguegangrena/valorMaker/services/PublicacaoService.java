@@ -1,6 +1,7 @@
 package br.com.ganguegangrena.valorMaker.services;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,7 +18,6 @@ import br.com.ganguegangrena.valorMaker.models.Publicacao;
 public class PublicacaoService {
 
 	private static final Logger logger = LoggerFactory.getLogger(PublicacaoService.class);
-
 	private final PublicacaoDAO publicacaoDAO;
 
 	@Autowired
@@ -29,7 +29,8 @@ public class PublicacaoService {
 	public Publicacao criarPublicacao(Publicacao publicacao) {
 		try {
 			logger.info("Criando publicação: {}", publicacao);
-			publicacao.setDataCriacao(LocalDateTime.now());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			publicacao.setDataCriacao(LocalDateTime.now().format(formatter));
 			Publicacao novaPublicacao = publicacaoDAO.save(publicacao);
 			logger.info("Publicação criada com sucesso: {}", novaPublicacao);
 			return novaPublicacao;

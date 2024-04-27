@@ -34,7 +34,7 @@ public interface UsuarioDAO extends JpaRepository<Usuario, Integer> {
 	@Query("SELECT u.usuariosSeguidos FROM Usuario u WHERE u.id = :idUsuario")
 	List<Usuario> recuperarUsuariosSeguidos(Long idUsuario);
 	
-	//Metodo ppara recupperar publicacao
+	//Metodo ppara recuperar publicacao
 	@Query("SELECT u.publicacoes FROM Usuario u WHERE u.id = :idUsuario")
 	List<Publicacao> recuperarPublicacoesDoUsuario(Long idUsuario);
 
